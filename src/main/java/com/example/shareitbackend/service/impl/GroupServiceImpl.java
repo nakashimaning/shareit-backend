@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import com.example.shareitbackend.dto.GroupRequest;
+import java.util.Date;
+
 @Component
 public class GroupServiceImpl implements GroupService {
 
@@ -60,5 +63,32 @@ public class GroupServiceImpl implements GroupService {
 
         response.setContents(contents);
         return response;
+    }
+
+    @Override
+    public Integer createGroup(GroupRequest groupRequest) {
+        Group group = new Group();
+        group.setGroupName(groupRequest.getGroupName());
+
+        if (groupRequest.getGroupColor() != null) {
+            group.setGroupColor(String.valueOf(groupRequest.getGroupColor()));
+        }
+
+        group.setCreatedBy(groupRequest.getCreatedBy());
+        group.setCurrency(groupRequest.getCurrency());
+
+        if (groupRequest.getCurrencyRateType() != null) {
+            group.setCurrencyRateType(groupRequest.getCurrencyRateType().byteValue());
+        }
+
+        group.setMainCategoryId(groupRequest.getMainCategoryId());
+        group.setSubCategoryId(groupRequest.getSubCategoryId());
+
+        group.setCreatedAt(new Date());
+        group.setSettleAt(new Date());
+        group.setStatus(0);
+
+        Integer newGroupId = groupDao.createGroup(group);
+        return newGroupId;
     }
 }

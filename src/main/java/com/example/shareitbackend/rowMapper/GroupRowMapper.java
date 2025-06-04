@@ -14,6 +14,7 @@ public class GroupRowMapper implements RowMapper<Group> {
 
         group.setGroupId(rs.getInt("group_id"));
         group.setGroupName(rs.getString("group_name"));
+        group.setGroupColor(rs.getString("group_color"));
         group.setCreatedBy(rs.getInt("created_by"));
         group.setCreatedAt(rs.getTimestamp("created_at"));
         group.setSettleAt(rs.getTimestamp("settled_at"));
