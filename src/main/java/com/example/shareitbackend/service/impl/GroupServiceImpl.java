@@ -84,11 +84,46 @@ public class GroupServiceImpl implements GroupService {
         group.setMainCategoryId(groupRequest.getMainCategoryId());
         group.setSubCategoryId(groupRequest.getSubCategoryId());
 
-        group.setCreatedAt(new Date());
-        group.setSettleAt(new Date());
+        Date createdAtDate = new Date();
+        group.setCreatedAt(createdAtDate);
+
+        // 結算日預設為起始日期的兩週後
+        java.time.LocalDateTime createdAtLocalDateTime = createdAtDate.toInstant()
+                                                                    .atZone(java.time.ZoneId.systemDefault())
+                                                                    .toLocalDateTime();
+        java.time.LocalDateTime settledAtLocalDateTime = createdAtLocalDateTime.plusWeeks(2);
+        Date settledAtDate = java.util.Date.from(settledAtLocalDateTime.atZone(java.time.ZoneId.systemDefault())
+                                                                        .toInstant());
+        group.setSettleAt(settledAtDate);
         group.setStatus(0);
 
         Integer newGroupId = groupDao.createGroup(group);
         return newGroupId;
+    }
+
+    @Override
+    public void updateGroup(Integer groupId, GroupRequest groupRequest) {
+        Group group = groupDao.getGroupById(groupId);
+
+        if (group == null) {
+           throw new RuntimeException("Group not found with id: " + groupId);
+        }
+        if (groupRequest.getGroupName() != null) {
+            group.setGroupName(groupRequest.getGroupName());
+        }
+        if (groupRequest.getCurrency() != null) {
+            group.setCurrency(groupRequest.getCurrency());
+        }
+        if (groupRequest.getCurrencyRateType() != null) {
+            group.setCurrencyRateType(groupRequest.getCurrencyRateType().byteValue());
+        }
+        if (groupRequest.getMainCategoryId() != null) {
+            group.setMainCategoryId(groupRequest.getMainCategoryId());
+        }
+        if (groupRequest.getSubCategoryId() != null) {
+            group.setSubCategoryId(groupRequest.getSubCategoryId());
+        }
+
+        groupDao.updateGroup(group);
     }
 }

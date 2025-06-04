@@ -1,7 +1,6 @@
 package com.example.shareitbackend.dao.impl;
 
 import com.example.shareitbackend.dao.GroupDao;
-import com.example.shareitbackend.dto.GroupDetailResponse;
 import com.example.shareitbackend.model.group.Group;
 import com.example.shareitbackend.rowMapper.GroupRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,5 +65,28 @@ public class GroupDaoImpl implements GroupDao {
         } else {
             throw new DataRetrievalFailureException("Failed to retrieve auto-generated key for group_id after insert.");
         }
+    }
+
+    @Override
+    public void updateGroup(Group group) {
+        String sql = "UPDATE `Groups` SET " +
+                     "group_name = :groupName, " +
+                     "settled_at = :settleAt, " +
+                     "currency = :currency, " +
+                     "currency_rate_type = :currencyRateType, " +
+                     "main_category_id = :mainCategoryId, " +
+                     "sub_category_id = :subCategoryId " +
+                     "WHERE group_id = :groupId";
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("groupId", group.getGroupId());
+        map.put("groupName", group.getGroupName());
+        map.put("settleAt", group.getSettleAt());
+        map.put("currency", group.getCurrency());
+        map.put("currencyRateType", group.getCurrencyRateType());
+        map.put("mainCategoryId", group.getMainCategoryId());
+        map.put("subCategoryId", group.getSubCategoryId());
+
+        namedParameterJdbcTemplate.update(sql, map);
     }
 }

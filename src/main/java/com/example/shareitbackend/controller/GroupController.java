@@ -2,6 +2,7 @@ package com.example.shareitbackend.controller;
 
 import com.example.shareitbackend.dto.GroupDetailResponse;
 import com.example.shareitbackend.dto.GroupRequest;
+import com.example.shareitbackend.model.group.Group;
 import com.example.shareitbackend.service.GroupService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +37,23 @@ public class GroupController {
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); 
         }
+    }
+
+    @PutMapping("group/updateGroup/{groupId}")
+    public ResponseEntity<GroupDetailResponse> updateGroup(@PathVariable Integer groupId,
+                                                           @RequestBody @Valid GroupRequest groupRequest) {
+        GroupDetailResponse group = groupService.getGroupById(groupId);
+
+        // 檢查group是否存在
+        if(group == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        // 修改group數據
+        groupService.updateGroup(groupId, groupRequest);
+
+        GroupDetailResponse groupDetail = groupService.getGroupById(groupId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(groupDetail);
     }
 }

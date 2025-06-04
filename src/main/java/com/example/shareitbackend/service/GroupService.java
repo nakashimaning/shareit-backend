@@ -8,4 +8,6 @@ public interface GroupService {
     GroupDetailResponse getGroupById(Integer groupId);
 
     Integer createGroup(GroupRequest groupRequest);
+
+    void updateGroup(Integer groupId, GroupRequest groupRequest);
 }

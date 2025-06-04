@@ -7,4 +7,6 @@ public interface GroupDao {
     Group getGroupById(Integer groupId);
 
     Integer createGroup(Group group);
+
+    void updateGroup(Group group);
 }
