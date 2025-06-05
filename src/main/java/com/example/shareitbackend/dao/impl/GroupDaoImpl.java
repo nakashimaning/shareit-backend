@@ -89,4 +89,14 @@ public class GroupDaoImpl implements GroupDao {
 
         namedParameterJdbcTemplate.update(sql, map);
     }
+
+    @Override
+    public void deleteGroup(Integer groupId) {
+        String sql = "DELETE FROM `Groups` WHERE group_id = :groupId";
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("groupId", groupId);
+
+        namedParameterJdbcTemplate.update(sql, map);
+    }
 }

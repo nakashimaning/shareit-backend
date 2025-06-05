@@ -10,4 +10,6 @@ public interface GroupService {
     Integer createGroup(GroupRequest groupRequest);
 
     void updateGroup(Integer groupId, GroupRequest groupRequest);
+
+    void deleteGroup(Integer groupId);
 }

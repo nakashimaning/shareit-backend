@@ -126,4 +126,9 @@ public class GroupServiceImpl implements GroupService {
 
         groupDao.updateGroup(group);
     }
+
+    @Override
+    public void deleteGroup(Integer groupId) {
+        groupDao.deleteGroup(groupId);
+    }
 }

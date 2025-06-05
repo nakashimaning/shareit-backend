@@ -9,4 +9,6 @@ public interface GroupDao {
     Integer createGroup(Group group);
 
     void updateGroup(Group group);
+
+    void deleteGroup(Integer groupId);
 }

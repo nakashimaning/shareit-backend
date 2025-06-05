@@ -56,4 +56,11 @@ public class GroupController {
 
         return ResponseEntity.status(HttpStatus.OK).body(groupDetail);
     }
+
+    @DeleteMapping("group/deleteGroup/{groupId}")
+    public ResponseEntity<?> deleteGroup(@PathVariable Integer groupId) {
+        groupService.deleteGroup(groupId);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
